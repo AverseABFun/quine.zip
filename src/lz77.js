@@ -1,4 +1,4 @@
-const LZ77ISA = [Interpreter.PRINT, Interpreter.REPEAT];
+const LZ77ISA = [Interpreter.PRINT, Interpreter.REPEAT, Interpreter.CHAR];
 function setup() {
     const inbox = document.getElementById('input');
     const outbox = document.getElementById('output');
