@@ -7,6 +7,7 @@
 const REPEAT = 'repeat';
 const PRINT = 'print';
 const REVERSE = 'reverse';
+const CHAR = 'char';
 const parsers = {};
 parsers[PRINT] = (symbols) => {
     const printT = symbols[0];
@@ -38,6 +39,12 @@ parsers[REVERSE] = (symbols) => {
         };
     }
 }
+const charParser = (symbols) => {
+    return {
+        t: CHAR,
+        d: symbols[0]
+    };
+}
 
 function parse (input, instructionSet) {
     const lines = input.split(/[\n]/).filter(nonempty);
@@ -51,7 +58,7 @@ function getParser (instructionSet) {
 
         let token;
         const success = instructionSet.some((instruction) => {
-            const instructionParser = parsers[instruction];
+            const instructionParser = parsers[instruction] || charParser;
             if (token = instructionParser(symbols))
                 return true;
         });
@@ -110,6 +117,8 @@ function runHelper (program, outputLines) {
         return runHelper(program, outputLines);
     } else if (instruction.t === REVERSE) {
         return runHelper(program, outputLines.reverse());
+    } else if (instruction.t === CHAR) {
+        return instruction.d;
     }
 }
 
